@@ -17,7 +17,7 @@ else
     puts "Треугольник равнобедренный"
   end
   abc.sort!
-  if abc[0]*abc[0]+abc[1]*abc[1] == abc[2]*abc[2]
+  if abc[0] ** 2 + abc[1] ** 2 == abc[2] ** 2
     puts "Треугольник прямоугольный"
   end
 end
