@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
 
-array = (2..20).to_a
-array.map! {|x| x * 5}
+array = []
+current_element = 10
+
+while current_element <= 100 do
+  array << current_element
+  current_element += 5
+end
 
 puts array
