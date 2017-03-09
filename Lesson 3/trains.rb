@@ -60,8 +60,6 @@ class Train
     @type = type 
     @waggons_amount = waggons_amount
     @speed = 0
-    @route = nil
-    @station = nil
   end
   
   def show_speed
