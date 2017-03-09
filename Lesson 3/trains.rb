@@ -17,15 +17,14 @@ class Station
   end
 
   def show_trains_with_type(type)
-    trains_this_type = []
+    trains_this_type = @trains_list.select {|train| train.type == type}
+     
+    print "Станция #{@name}. " 
+    print "Грузовые поезда " if type == :freight
+    print "Пассажирские поезда " if type == :passenger
+    puts "(#{trains_this_type.size} шт.):"
     
-    @trains_list.each do |train|
-      if train.type == type
-        trains_this_type << train.number
-      end
-    end
-      puts "Станция #{@name}. Грузовые поезда (#{trains_this_type.size} шт.):\n#{trains_this_type}" if type == :freight
-      puts "Станция #{@name}. Пассажирские поезда (#{trains_this_type.size} шт.):\n#{trains_this_type}" if type == :passenger
+    trains_this_type.each {|train| puts "* Поезд №#{train.number}"} 
   end
 
   def send_train(train)
@@ -58,12 +57,7 @@ class Train
   attr_accessor :route
   def initialize(number, type, waggons_amount)
     @number = number
-    case type
-      when 0
-        @type=:freight
-      else
-        @type=:passenger
-    end
+    @type = type 
     @waggons_amount = waggons_amount
     @speed = 0
     @route = nil
@@ -87,7 +81,7 @@ class Train
   end
 
   def stopped?
-    return @speed == 0
+    @speed == 0
   end
 
   def add_waggon
@@ -157,6 +151,45 @@ class Train
     end
   end
 
+  def show_current_station
+    if @route
+      station_index = @route.stations.index(@station)
+      if station_index.nil?
+        puts "Поезд №#{@number} сейчас не на маршруте"
+      else
+        puts "Поезд №#{@number}. Текущая станция: #{@station.name}"
+      end
+    end  
+  end
+
+  def show_next_station
+    if @route
+      station_index = @route.stations.index(@station)
+      case station_index
+        when nil
+          puts "Поезд №#{@number} сейчас не на маршруте"
+        when @route.stations.size - 1
+          puts "Поезд №#{@number} уже на конечной станции"
+        else
+          puts "Поезд №#{@number}. Следующая станция: #{@route.stations[station_index+1].name}"
+      end
+    end
+  end
+  
+  def show_previous_station
+    if @route
+      station_index = @route.stations.index(@station)
+      case station_index
+        when nil
+          puts "Поезд №#{@number} сейчас не на маршруте"
+        when 0
+          puts "Поезд №#{@number} пока ещё на начальной станции"
+        else
+          puts "Поезд №#{@number}. Предыдущая станция: #{@route.stations[station_index-1].name}"
+      end
+    end
+  end
+
 end
 
 
@@ -175,14 +208,14 @@ route.add_station(station3)
 route.add_station(station4)
 
 
-train1 = Train.new("0001",0,8)
-train2 = Train.new("0002",1,7)
-train3 = Train.new("0003",0,6)
+train1 = Train.new("0001",:freight,8)
+train2 = Train.new("0002",:passenger,7)
+train3 = Train.new("0003",:freight,6)
 
 train1.route=route
 train1.show_route_stations
 
-8.times {train1.goto_next_station; train1.show_route_stations}
+8.times {train1.goto_next_station; train1.show_current_station; train1.show_next_station}
 
 station5.take_train(train2)
 station5.take_train(train3)
