@@ -135,21 +135,6 @@ class Train
     end
   end
 
-  def show_route_stations
-    if @route
-      station_index = @route.stations.index(@station)
-      case station_index
-        when nil
-          puts "Поезд №#{@number} сейчас не на маршруте"
-        when 0
-          puts "Поезд №#{@number}. Текущая станция: #{@station.name} (начальная), следующая: #{@route.stations[1].name}"
-        when @route.stations.size - 1
-          puts "Поезд №#{@number}. Текущая станция: #{@station.name} (конечная), предыдущая: #{@route.stations[station_index-1].name}"
-        else
-          puts "Поезд №#{@number}. Текущая станция: #{@station.name}, следующая: #{@route.stations[station_index+1].name}, предыдущая: #{@route.stations[station_index-1].name}"
-      end
-    end
-  end
 
   def show_current_station
     if @route
