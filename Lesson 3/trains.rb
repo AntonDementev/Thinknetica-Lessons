@@ -24,9 +24,9 @@ class Station
     freight_trains = []
     passenger_trains = []
     @trains_list.each do |train|
-      if train.type == "грузовой"
+      if train.type == :freight
         freight_trains << train.number
-      else
+      elsif train.type == :passenger
         passenger_trains << train.number
       end
     end
@@ -68,9 +68,9 @@ class Train
     @number = number
     case type
       when 0
-        @type="грузовой"
+        @type=:freight
       else
-        @type="пассажирский"
+        @type=:passenger
     end
     @waggons_amount = waggons_amount
     @speed = 0
