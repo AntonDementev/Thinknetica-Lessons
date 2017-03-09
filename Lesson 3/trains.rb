@@ -9,7 +9,7 @@ class Station
   end
   
   def take_train(train)
-      train.set_to_station(self)
+      train.go_to_station(self)
   end
 
   def show_trains
@@ -74,7 +74,7 @@ class Train
     puts "Скорость поезда №#{@number} (#{@type}) составляет #{@speed} км/ч"
   end
 
-  def set_speed(speed)
+  def change_speed(speed)
     @speed = speed
   end
 
@@ -113,7 +113,7 @@ class Train
     end
   end
   
-  def set_to_station(station)
+  def go_to_station(station)
     if @station
       self.go_from_station
     end
