@@ -2,11 +2,11 @@
 PassengerWaggon=Class.new
 
 class PassengerTrain < Train
+  def wagon_class
+    PassengerWaggon.new
+  end
+  
   def add_waggon
-    if stopped?
-      add_typed_waggon(PassengerWaggon.new)
-    else
-      puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
-    end
-  end 
+    super
+  end
 end

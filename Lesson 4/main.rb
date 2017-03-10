@@ -57,7 +57,6 @@ def add_waggon
   train=find_train_with_number
   if train
     train.add_waggon
-    puts "Вагон добавлен (всего #{train.waggons.size})"
   end  
 end
 
@@ -65,7 +64,6 @@ def remove_waggon
   train = find_train_with_number
   if train
     train.remove_waggon
-    puts "Вагон удалён (осталось #{train.waggons.size})"
   end 
 end
 
@@ -103,8 +101,8 @@ loop do
       create_train
     when "add_waggon"
       add_waggon
-    when "remoce_waggon"
-      add_waggon
+    when "remove_waggon"
+      remove_waggon
     when "move_to_station"
       move_to_station
     when "stations_list"

@@ -113,19 +113,27 @@ class Train
   def remove_waggon
     if stopped? && @waggons.size > 0
       @waggons.pop
+      puts "Поезд №#{@number}: вагон отцеплен (осталось #{@waggons.size})"
     else
       puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
     end
   end
-
+  
   protected
-  #данные методы используются только в дочерних классах (или внутри данного класса)
-  #все остальные должны быть доступны из вне
+  #метод add_waggon не сможет быть использован объектами типа Train
+  #вызывается через super из дочених классов
+  
+  def add_waggon
+    if stopped?
+      @waggons << wagon_class
+      puts "Поезд №#{@number}: вагон добавлен (всего #{@waggons.size})"
+    else
+      puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
+    end
+  end 
 
-  def add_typed_waggon(waggon)
-     #проверка проводится в дочернем классе
-     @waggons << waggon    
-  end
+  private
+  #только для внутреннего использования
 
   def stopped?
     @speed == 0
