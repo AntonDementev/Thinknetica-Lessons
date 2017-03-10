@@ -22,7 +22,7 @@ class Train
   end
 
   def show_waggons_amount
-    puts "Количество вагонов(поезд №#{@number}): #{@waggons_amount}"
+    puts "Количество вагонов(поезд №#{@number}): #{@waggons.size}"
   end
   
   def go_from_station
@@ -101,7 +101,7 @@ class Train
   end
 
   def remove_waggon
-    if stopped? && @waggons_amount > 0
+    if stopped? && @waggons.size > 0
       @waggons.pop
     else
       puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"

@@ -82,7 +82,6 @@ def add_waggon
   find_train_with_number
   
   if $train_findded
-    $train.class
     $train.add_waggon
     puts "Вагон добавлен (всего #{$train.waggons.size})"
   end  
@@ -146,12 +145,4 @@ loop do
   end
     
 end
-
-
-
-
-
-
-
-
 
