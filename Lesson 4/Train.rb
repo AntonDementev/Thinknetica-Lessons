@@ -3,11 +3,21 @@
 class Train
   attr_reader :number, :station, :waggons
   attr_accessor :route
+  
+  @@list = []
+  
   def initialize(number)
     @number = number
     @waggons = []
     @speed = 0
+    
+    @@list << self
   end
+  
+  def Train.get_list
+    @@list
+  end
+  
   
   def show_speed
     puts "Скорость поезда №#{@number} составляет #{@speed} км/ч"

@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 CargoWaggon=Class.new
 
 class CargoTrain < Train

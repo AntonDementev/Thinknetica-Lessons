@@ -6,20 +6,6 @@ require_relative 'CargoTrain'
 require_relative 'PassengerTrain'
 require_relative 'Station'
 
-
-=begin
-     - Создавать станции
-     - Создавать поезда
-     - Добавлять вагоны к поезду
-     - Отцеплять вагоны от поезда
-     - Помещать поезда на станцию
-     - Просматривать список станций и список поездов на станции
-=end
-
-$stations = []
-$trains = []
-
-
 def show_cmd_list
   puts "Список команд:
   create_station - создать станцию
@@ -33,11 +19,10 @@ def show_cmd_list
   exit - выход"
 end
 
-
 def create_station
   puts "Название новой станции?"
   name = gets.chomp
-  $stations << Station.new(name)
+  Station.new(name)
 end
 
 def create_train
@@ -47,9 +32,9 @@ def create_train
   type = gets.chomp
   case type
     when "cargo"
-      $trains << CargoTrain.new(number)
+      CargoTrain.new(number)
     when "pass"
-      $trains << PassengerTrain.new(number)
+      PassengerTrain.new(number)
     else
       puts "Неправильно задан тип, поезд не создан"
   end
@@ -58,65 +43,53 @@ end
 def find_train_with_number
   puts "Введите номер поезда"
   number = gets.chomp
-  $trains.each do |current_train| 
-    if current_train.number == number
-      $train = current_train
-      $train_findded = true
-    end
-  end
+  Train.get_list.find {|train| train.number == number}
 end
 
 def find_station_with_name
   puts "Введите название станции"
   name = gets.chomp
-  $stations.each do |current_station| 
-    if current_station.name == name
-      $station = current_station
-      $station_findded = true
-    end
-  end 
+  Station.get_list.find {|station| station.name == name}
 end
 
 
 def add_waggon
-  find_train_with_number
-  
-  if $train_findded
-    $train.add_waggon
-    puts "Вагон добавлен (всего #{$train.waggons.size})"
+  train=find_train_with_number
+  if train
+    train.add_waggon
+    puts "Вагон добавлен (всего #{train.waggons.size})"
   end  
 end
 
 def remove_waggon
-  find_train_with_number
-  
-  if $train_findded
-    $train.remove_waggon
-    puts "Вагон удалён (осталось #{$train.waggons.size})"
+  train = find_train_with_number
+  if train
+    train.remove_waggon
+    puts "Вагон удалён (осталось #{train.waggons.size})"
   end 
 end
 
 def move_to_station
-  find_train_with_number
-  find_station_with_name
+  train = find_train_with_number
+  station = find_station_with_name
   
-  if $train_findded && $station_findded
-    $station.take_train($train)
-    puts "Поезд №#{$train.number} помещён на станцию #{$station.name}"
+  if train && station
+    station.take_train(train)
+    puts "Поезд №#{train.number} помещён на станцию #{station.name}"
   end
 end
 
 def show_stations_list
   puts "Список станций"
-  $stations.each do |station|
+  Station.get_list.each do |station|
     puts "* #{station.name}"
   end
 end
 
 
 def show_trains_list
-  find_station_with_name
-  $station.show_trains
+  station = find_station_with_name
+  station.show_trains if station
 end
 
 show_cmd_list
