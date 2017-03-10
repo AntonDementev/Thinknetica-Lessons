@@ -9,5 +9,4 @@ class PassengerTrain < Train
       puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
     end
   end 
-  end 
 end
