@@ -121,8 +121,10 @@ class Train
   
   def add_waggon(wagon)
     if stopped?
-      @waggons << wagon
-      puts "Поезд №#{@number}: вагон добавлен (всего #{@waggons.size})"
+      if (self.class == PassengerTrain && wagon.class == PassengerWaggon) || (self.class == CargoTrain && wagon.class == CargoWaggon)
+        @waggons << wagon
+        puts "Поезд №#{@number}: вагон добавлен (всего #{@waggons.size})"
+      end
     else
       puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
     end
