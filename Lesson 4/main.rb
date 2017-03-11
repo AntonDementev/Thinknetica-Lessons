@@ -56,7 +56,11 @@ end
 def add_waggon
   train=find_train_with_number
   if train
-    train.add_waggon
+    if train.class == CargoTrain
+      train.add_waggon(CargoWaggon.new)
+    elsif train.class == PassengerTrain
+      train.add_waggon(PassengerWaggon.new)
+    end
   end  
 end
 

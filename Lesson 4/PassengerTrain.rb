@@ -1,12 +1,10 @@
 #!/usr/bin/env ruby
-PassengerWaggon=Class.new
+class PassengerWaggon; end;
 
 class PassengerTrain < Train
-  def wagon_class
-    PassengerWaggon.new
-  end
-  
-  def add_waggon
-    super
+  def add_waggon(waggon)
+    if waggon.class == PassengerWaggon
+      super(waggon)
+    end
   end
 end

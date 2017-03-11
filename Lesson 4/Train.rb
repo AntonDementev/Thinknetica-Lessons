@@ -119,13 +119,9 @@ class Train
     end
   end
   
-  protected
-  #метод add_waggon не сможет быть использован объектами типа Train
-  #вызывается через super из дочених классов
-  
-  def add_waggon
+  def add_waggon(wagon)
     if stopped?
-      @waggons << wagon_class
+      @waggons << wagon
       puts "Поезд №#{@number}: вагон добавлен (всего #{@waggons.size})"
     else
       puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
