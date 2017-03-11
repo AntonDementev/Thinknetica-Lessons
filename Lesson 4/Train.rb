@@ -121,7 +121,7 @@ class Train
   
   def add_waggon(wagon)
     if stopped?
-      if (self.class == PassengerTrain && wagon.class == PassengerWaggon) || (self.class == CargoTrain && wagon.class == CargoWaggon)
+      if check_waggon(wagon)
         @waggons << wagon
         puts "Поезд №#{@number}: вагон добавлен (всего #{@waggons.size})"
       end
