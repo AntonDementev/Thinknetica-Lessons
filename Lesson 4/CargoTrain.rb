@@ -1,5 +1,5 @@
 #!/usr/bin/env ruby
-class CargoWaggon; end
+class CargoWaggon; end;
 
 class CargoTrain < Train
   def add_waggon(waggon)
