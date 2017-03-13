@@ -6,6 +6,9 @@ require_relative 'InstanceCounter'
 class PassengerWaggon
   include Company
   include InstanceCounter
+  def initialize
+    register_instance
+  end
 end
 
 class PassengerTrain < Train
