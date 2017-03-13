@@ -11,7 +11,7 @@ module InstanceCounter
       @@count
     end
       
-    def registe_new
+    def register_new
       @@count += 1
     end
      
@@ -22,7 +22,7 @@ end
     protected
   
     def register_instance
-      self.class.registe_new
+      self.class.register_new
     end
     
   end
