@@ -7,6 +7,7 @@ class Station
   @@list = []
   
   include InstanceCounter
+  self.begin_count
   
   def initialize(name)
     @name = name
@@ -15,7 +16,7 @@ class Station
     @@list << self
   end
   
-  def Station.all
+  def self.all
     @@list
   end
   

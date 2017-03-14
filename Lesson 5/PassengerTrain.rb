@@ -6,6 +6,7 @@ require_relative 'InstanceCounter'
 class PassengerWaggon
   include Company
   include InstanceCounter
+  self.begin_count
   def initialize
     register_instance
   end

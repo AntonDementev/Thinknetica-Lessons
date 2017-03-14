@@ -6,15 +6,19 @@ module InstanceCounter
   end
   
   module ClassMethods
-    @@count = 0
+    def begin_count
+      self.count = 0
+    end
     
     def instances
-      @@count
+      self.count
     end
       
     def register_new
-      @@count += 1
+      self.count += 1
     end
+    
+    attr_accessor :count
      
 end
   

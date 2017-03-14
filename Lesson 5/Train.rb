@@ -9,20 +9,22 @@ class Train
   
   include Company
   include InstanceCounter
-  
+  self.begin_count
 
-  @@list = []
+
+  @@hash_list = {}
   
   def initialize(number)
     @number = number
     @waggons = []
     @speed = 0
     register_instance
-    @@list << self
+
+    @@hash_list[number] = self
   end
   
-  def Train.find(number)
-    @@list.find {|train| train.number == number}
+  def self.find(number)
+    @@hash_list[number]
   end
   
   def show_speed
