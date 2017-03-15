@@ -9,10 +9,9 @@ class Train
   
   include Company
   include InstanceCounter
-  self.begin_count
 
 
-  @@hash_list = {}
+  @@trains = {}
   
   def initialize(number)
     @number = number
@@ -20,7 +19,7 @@ class Train
     @speed = 0
     register_instance
 
-    @@hash_list[number] = self
+    @@trains[number] = self
   end
   
   def self.find(number)

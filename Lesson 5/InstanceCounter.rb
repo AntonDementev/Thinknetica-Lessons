@@ -6,19 +6,15 @@ module InstanceCounter
   end
   
   module ClassMethods
-    def begin_count
-      self.count = 0
-    end
+    attr_accessor :instances
     
-    def instances
-      self.count
+    def begin_count
+      self.instances = 1
     end
       
     def register_new
-      self.count += 1
+      self.instances += 1
     end
-    
-    attr_accessor :count
      
 end
   
@@ -27,7 +23,11 @@ end
     protected
   
     def register_instance
-      self.class.register_new
+      if self.class.instances
+        self.class.register_new
+      else
+        self.class.begin_count
+      end
     end
     
   end
