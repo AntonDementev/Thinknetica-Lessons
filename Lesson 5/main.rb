@@ -25,19 +25,25 @@ def create_station
   Station.new(name)
 end
 
-def create_train
-  puts "Номер нового поезда?"
-  number = gets.chomp
-  puts "Введите тип поезда: [cargo/pass] = грузововой/пассажирский"
-  type = gets.chomp
-  case type
-    when "cargo"
-      CargoTrain.new(number)
-    when "pass"
-      PassengerTrain.new(number)
-    else
-      puts "Неправильно задан тип, поезд не создан"
-  end
+def create_train  
+  begin  
+    puts "Номер нового поезда?"
+    number = gets.chomp
+    puts "Введите тип поезда: [cargo/pass] = грузововой/пассажирский"
+    type = gets.chomp
+  
+    case type
+      when "cargo"
+        CargoTrain.new(number)
+      when "pass"
+        PassengerTrain.new(number)
+      else
+        puts "Неправильно задан тип, поезд не создан"
+    end  
+  rescue RuntimeError
+    puts "Неправильно задан номер поезда, введите ещё раз" 
+    retry
+  end 
 end
 
 def find_train_with_number
@@ -82,7 +88,7 @@ def move_to_station
 end
 
 def show_stations_list
-  puts "Список станций"
+  puts "Список станций (#{Station.all.size}):"
   Station.all.each do |station|
     puts "* #{station.name}"
   end

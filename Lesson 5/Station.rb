@@ -11,6 +11,7 @@ class Station
   def initialize(name)
     @name = name
     @trains_list = []
+    validate!
     register_instance
     @@list << self
   end
@@ -43,4 +44,13 @@ class Station
   def send_train(train)
       train.go_from_station
   end
+  
+  protected
+  
+  def validate!
+    raise "Название станции не задано" if @name.nil?
+    raise "Название станции пустое" if @name.size == 0
+    true
+  end
+  
 end

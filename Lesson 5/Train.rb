@@ -4,30 +4,34 @@ require_relative 'Company'
 require_relative 'InstanceCounter'
 
 class Train
-  attr_reader :number, :station, :waggons
+  attr_reader :number, :station, :waggons, :speed
   attr_accessor :route
   
   include Company
   include InstanceCounter
-
-
+  
+  NUMBER_FORMAT = /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
+  
   @@trains = {}
   
   def initialize(number)
     @number = number
     @waggons = []
     @speed = 0
+    validate!
+    
     register_instance
-
     @@trains[number] = self
+  end
+  
+  def valid?
+    validate!
+  rescue
+    false
   end
   
   def self.find(number)
     @@trains[number]
-  end
-  
-  def show_speed
-    puts "Скорость поезда №#{@number} составляет #{@speed} км/ч"
   end
 
   def change_speed(speed)
@@ -38,8 +42,8 @@ class Train
     @speed = 0
   end
 
-  def show_waggons_amount
-    puts "Количество вагонов(поезд №#{@number}): #{@waggons.size}"
+  def waggons_amount
+    @waggons.size
   end
   
   def go_from_station
@@ -67,9 +71,7 @@ class Train
         if station_index.nil?
           @station.send_train(self)
           @route.stations[0].take_train(self)
-        elsif station_index == @route.stations.size - 1
-          puts "Поезд №#{@number} никуда не идет т.к. уже на конечной"
-        else
+        elsif station_index < @route.stations.size - 1
           @route.stations[station_index].send_train(self)
           @route.stations[station_index+1].take_train(self)
         end
@@ -120,26 +122,29 @@ class Train
   def remove_waggon
     if stopped? && @waggons.size > 0
       @waggons.pop
-      puts "Поезд №#{@number}: вагон отцеплен (осталось #{@waggons.size})"
-    else
-      puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
     end
+    @waggons.size
   end
   
   def add_waggon(wagon)
     if stopped?
       if check_waggon(wagon)
         @waggons << wagon
-        puts "Поезд №#{@number}: вагон добавлен (всего #{@waggons.size})"
       end
-    else
-      puts "Поезд №#{@number}: нельзя отцеплять вагоны во время движения или если их нет"
     end
+    @waggons.size
   end 
-
+  
+  protected
+  
+  def validate!
+    raise "Номер поезда не задан" if @number.nil?
+    raise "Тип поезда не определён" if self.class != CargoTrain || self.class != PassengerTrain
+    raise "Номер поезда неправильного формата" if @number !~ NUMBER_FORMAT
+    true
+  end
+  
   private
-  #только для внутреннего использования
-
   def stopped?
     @speed == 0
   end
