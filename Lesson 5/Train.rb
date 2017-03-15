@@ -23,7 +23,7 @@ class Train
   end
   
   def self.find(number)
-    @@hash_list[number]
+    @@trains[number]
   end
   
   def show_speed
