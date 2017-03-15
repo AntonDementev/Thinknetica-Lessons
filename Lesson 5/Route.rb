@@ -35,7 +35,7 @@ class Route
   protected
   
   def validate!
-    raise "Неправильно заданы параметры" if @stations[0].class == Station && @stations[-1].class == Station
+    raise "Неправильно заданы параметры" if @stations[0].class != Station || @stations[-1].class != Station
     true
   end
   
