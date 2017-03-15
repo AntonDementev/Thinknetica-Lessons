@@ -123,7 +123,7 @@ class Train
     if stopped? && @waggons.size > 0
       @waggons.pop
     end
-    @waggons.size
+    waggons_amount
   end
   
   def add_waggon(wagon)
@@ -132,7 +132,7 @@ class Train
         @waggons << wagon
       end
     end
-    @waggons.size
+    waggons_amount
   end 
   
   protected
