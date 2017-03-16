@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-require_relative 'Route'
-require_relative 'Train'
-require_relative 'CargoTrain'
-require_relative 'PassengerTrain'
-require_relative 'Station'
+require_relative 'route'
+require_relative 'train'
+require_relative 'cargo_train'
+require_relative 'passenger_train'
+require_relative 'station'
 
 def show_cmd_list
   puts "Список команд:

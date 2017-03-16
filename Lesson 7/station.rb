@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'InstanceCounter'
+require_relative 'instance_counter'
 
 class Station
   attr_reader :name, :trains_list
