@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
-require_relative 'Company'
-require_relative 'InstanceCounter'
+require_relative 'company'
+require_relative 'instance_counter'
 
 class CargoWaggon
   include Company

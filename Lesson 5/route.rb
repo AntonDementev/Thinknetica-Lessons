@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-require_relative 'InstanceCounter'
+require_relative 'instance_counter'
 
 class Route 
   attr_reader :stations
