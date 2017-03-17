@@ -60,16 +60,15 @@ end
 
 def add_waggon
   train = find_train_with_number
-  if train
-    if train.class == CargoTrain
-      puts 'Какой объём вагона?'
-      volume = gets.to_f
-      train.add_waggon(CargoWaggon.new(volume))
-    elsif train.class == PassengerTrain
-      puts 'Сколько мест в вагоне?'
-      seats_max = gets.to_i
-      train.add_waggon(PassengerWaggon.new(seats_max))
-    end
+  return unless train
+  if train.is_a? CargoTrain
+    puts 'Какой объём вагона?'
+    volume = gets.to_f
+    train.add_waggon(CargoWaggon.new(volume))
+  elsif train.is_a? PassengerTrain
+    puts 'Сколько мест в вагоне?'
+    seats_max = gets.to_i
+    train.add_waggon(PassengerWaggon.new(seats_max))
   end
 end
 
@@ -80,22 +79,21 @@ end
 
 def use_waggon
   train = find_train_with_number
-  if train
-    waggons_amount = train.waggons_amount
-    puts "Введите номер вагона (всего: #{waggons_amount})"
-    waggon_number = gets.to_i
-    if waggon_number > 0 && waggon_number <= waggons_amount
-      waggon = train.waggons[waggon_number - 1]
-      if waggon.is_a? PassengerWaggon
-        waggon.add_passenger
-      elsif waggon.is_a? CargoWaggon
-        puts "На какой объём заполнить вагон? (доступно: #{waggon.volume_left})"
-        volume = gets.to_f
-        waggon.use_volume(volume)
-      end
-    else
-      puts 'Неправильно задан номер вагона'
+  return unless train
+  waggons_amount = train.waggons_amount
+  puts "Введите номер вагона (всего: #{waggons_amount})"
+  waggon_number = gets.to_i
+  if waggon_number > 0 && waggon_number <= waggons_amount
+    waggon = train.waggons[waggon_number - 1]
+    if waggon.is_a? PassengerWaggon
+      waggon.add_passenger
+    elsif waggon.is_a? CargoWaggon
+      puts "На какой объём заполнить вагон? (доступно: #{waggon.volume_left})"
+      volume = gets.to_f
+      waggon.use_volume(volume)
     end
+  else
+    puts 'Неправильно задан номер вагона'
   end
 end
 
@@ -103,10 +101,9 @@ def move_to_station
   train = find_train_with_number
   station = find_station_with_name
 
-  if train && station
-    station.take_train(train)
-    puts "Поезд №#{train.number} помещён на станцию #{station.name}"
-  end
+  return unless train && station
+  station.take_train(train)
+  puts "Поезд №#{train.number} помещён на станцию #{station.name}"
 end
 
 def show_stations_list

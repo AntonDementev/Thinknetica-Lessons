@@ -19,7 +19,6 @@ route.add_station(station4)
 
 train1 = PassengerTrain.new('000-01')
 train2 = CargoTrain.new('000-02')
-train3 = PassengerTrain.new('000-03')
 
 train2.add_waggon(CargoWaggon.new(120.0))
 train2.add_waggon(CargoWaggon.new(120.0))

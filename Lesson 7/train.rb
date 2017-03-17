@@ -53,10 +53,9 @@ class Train
   end
 
   def go_from_station
-    if @station
-      @station.trains_list.delete(self)
-      @station = nil
-    end
+    return unless @station
+    @station.trains_list.delete(self)
+    @station = nil
   end
 
   def go_to_station(station)
@@ -66,59 +65,58 @@ class Train
   end
 
   def goto_next_station
-    if @route
-      if @station.nil?
-        @route.stations[0].take_train(self)
-      else
-        station_index = @route.stations.index(@station)
+    return unless @route
+    if @station.nil?
+      @route.stations[0].take_train(self)
+    else
+      station_index = @route.stations.index(@station)
 
-        if station_index.nil?
-          @station.send_train(self)
-          @route.stations[0].take_train(self)
-        elsif station_index < @route.stations.size - 1
-          @route.stations[station_index].send_train(self)
-          @route.stations[station_index + 1].take_train(self)
-        end
+      if station_index.nil?
+        @station.send_train(self)
+        @route.stations[0].take_train(self)
+      elsif station_index < @route.stations.size - 1
+        @route.stations[station_index].send_train(self)
+        @route.stations[station_index + 1].take_train(self)
       end
     end
   end
 
   def show_current_station
-    if @route
-      station_index = @route.stations.index(@station)
-      if station_index.nil?
-        puts "Поезд №#{@number} сейчас не на маршруте"
-      else
-        puts "Поезд №#{@number}. Текущая станция: #{@station.name}"
-      end
+    return unless @route
+    station_index = @route.stations.index(@station)
+    print "Поезд №#{@number}"
+    if station_index.nil?
+      puts ' сейчас не на маршруте'
+    else
+      puts ". Текущая станция: #{@station.name}"
     end
   end
 
   def show_next_station
-    if @route
-      station_index = @route.stations.index(@station)
-      case station_index
-      when nil
-        puts "Поезд №#{@number} сейчас не на маршруте"
-      when @route.stations.size - 1
-        puts "Поезд №#{@number} уже на конечной станции"
-      else
-        puts "Поезд №#{@number}. Следующая станция: #{@route.stations[station_index + 1].name}"
-      end
+    return unless @route
+    station_index = @route.stations.index(@station)
+    print "Поезд №#{@number}"
+    case station_index
+    when nil
+      puts ' сейчас не на маршруте'
+    when @route.stations.size - 1
+      puts ' уже на конечной станции'
+    else
+      puts ". Следующая станция: #{@route.stations[station_index + 1].name}"
     end
   end
 
   def show_previous_station
-    if @route
-      station_index = @route.stations.index(@station)
-      case station_index
-      when nil
-        puts "Поезд №#{@number} сейчас не на маршруте"
-      when 0
-        puts "Поезд №#{@number} пока ещё на начальной станции"
-      else
-        puts "Поезд №#{@number}. Предыдущая станция: #{@route.stations[station_index - 1].name}"
-      end
+    return unless @route
+    station_index = @route.stations.index(@station)
+    print "Поезд №#{@number}"
+    case station_index
+    when nil
+      puts ' сейчас не на маршруте'
+    when 0
+      puts ' пока ещё на начальной станции'
+    else
+      puts ". Предыдущая станция: #{@route.stations[station_index - 1].name}"
     end
   end
 
@@ -146,6 +144,6 @@ class Train
   private
 
   def stopped?
-    @speed == 0
+    @speed.zero?
   end
 end

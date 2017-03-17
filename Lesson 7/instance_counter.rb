@@ -14,7 +14,7 @@ module InstanceCounter
     def register_new
       self.instances += 1
     end
-end
+  end
 
   module InstanceMethods
     protected
