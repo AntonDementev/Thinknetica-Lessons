@@ -13,15 +13,14 @@ class PassengerWaggon
     @seats_max = seats_max
     @seats = 0
   end
-  
+
   def add_passenger
     @seats += 1 if @seats < @seats_max
   end
-  
+
   def seats_left
     @seats_max - @seats
   end
-
 end
 
 class PassengerTrain < Train

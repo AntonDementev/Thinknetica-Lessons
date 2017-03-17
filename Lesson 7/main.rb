@@ -22,75 +22,70 @@ def show_cmd_list
 end
 
 def create_station
-  puts "Название новой станции?"
+  puts 'Название новой станции?'
   name = gets.chomp
   Station.new(name)
 end
 
-def create_train  
-  begin  
-    puts "Номер нового поезда?"
-    number = gets.chomp
-    puts "Введите тип поезда: [cargo/pass] = грузововой/пассажирский"
-    type = gets.chomp
-  
-    case type
-      when "cargo"
-        CargoTrain.new(number)
-      when "pass"
-        PassengerTrain.new(number)
-      else
-        puts "Неправильно задан тип, поезд не создан"
-    end  
-  rescue RuntimeError
-    puts "Неправильно задан номер поезда, введите ещё раз" 
-    retry
-  end 
+def create_train
+  puts 'Номер нового поезда?'
+  number = gets.chomp
+  puts 'Введите тип поезда: [cargo/pass] = грузововой/пассажирский'
+  type = gets.chomp
+
+  case type
+  when 'cargo'
+    CargoTrain.new(number)
+  when 'pass'
+    PassengerTrain.new(number)
+  else
+    puts 'Неправильно задан тип, поезд не создан'
+  end
+rescue RuntimeError
+  puts 'Неправильно задан номер поезда, введите ещё раз'
+  retry
 end
 
 def find_train_with_number
-  puts "Введите номер поезда"
+  puts 'Введите номер поезда'
   number = gets.chomp
   Train.find(number)
 end
 
 def find_station_with_name
-  puts "Введите название станции"
+  puts 'Введите название станции'
   name = gets.chomp
-  Station.all.find {|station| station.name == name}
+  Station.all.find { |station| station.name == name }
 end
 
-
 def add_waggon
-  train=find_train_with_number
+  train = find_train_with_number
   if train
     if train.class == CargoTrain
-      puts "Какой объём вагона?"
+      puts 'Какой объём вагона?'
       volume = gets.to_f
       train.add_waggon(CargoWaggon.new(volume))
     elsif train.class == PassengerTrain
-      puts "Сколько мест в вагоне?"
+      puts 'Сколько мест в вагоне?'
       seats_max = gets.to_i
       train.add_waggon(PassengerWaggon.new(seats_max))
     end
-  end  
+  end
 end
 
 def remove_waggon
   train = find_train_with_number
-  if train
-    train.remove_waggon
-  end 
+  train.remove_waggon if train
 end
 
 def use_waggon
   train = find_train_with_number
   if train
-    waggons_amount=train.waggons_amount
+    waggons_amount = train.waggons_amount
     puts "Введите номер вагона (всего: #{waggons_amount})"
     waggon_number = gets.to_i
-    if (waggon_number > 0 && waggon_number <= waggons_amount)
-      waggon=train.waggons[waggon_number-1]
+    if waggon_number > 0 && waggon_number <= waggons_amount
+      waggon = train.waggons[waggon_number - 1]
       if waggon.is_a? PassengerWaggon
         waggon.add_passenger
       elsif waggon.is_a? CargoWaggon
@@ -99,7 +94,7 @@ def use_waggon
         waggon.use_volume(volume)
       end
     else
-      puts "Неправильно задан номер вагона"
+      puts 'Неправильно задан номер вагона'
     end
   end
 end
@@ -107,7 +102,7 @@ end
 def move_to_station
   train = find_train_with_number
   station = find_station_with_name
-  
+
   if train && station
     station.take_train(train)
     puts "Поезд №#{train.number} помещён на станцию #{station.name}"
@@ -121,26 +116,24 @@ def show_stations_list
   end
 end
 
-
 def show_trains_list
   station = find_station_with_name
-  puts_trains = lambda {|train| puts "* Поезд №#{train.number}" }
+  puts_trains = ->(train) { puts "* Поезд №#{train.number}" }
   station.action_with_trains(puts_trains) if station
 end
 
 def show_waggons_list
-  puts_waggons = lambda {|waggon|
+  puts_waggons = lambda do |waggon|
     puts waggon.class
     if waggon.is_a? PassengerWaggon
-      puts "* Вагон с #{waggon.seats_left} свободных мест из #{waggon.seats_max}" 
+      puts "* Вагон с #{waggon.seats_left} свободных мест из #{waggon.seats_max}"
     elsif waggon.is_a? CargoWaggon
       puts "* Вагон с доступным объёмом: #{waggon.volume_left} из #{waggon.volume}"
     end
-  }
-  
+  end
+
   train = find_train_with_number
   train.action_with_waggons(puts_waggons)
-  
 end
 
 show_cmd_list
@@ -148,29 +141,27 @@ show_cmd_list
 loop do
   cmd = gets.chomp
   case cmd
-    when "create_station"
-      create_station
-    when "create_train"
-      create_train
-    when "add_waggon"
-      add_waggon
-    when "remove_waggon"
-      remove_waggon
-    when "use_waggon"
-      use_waggon
-    when "move_to_station"
-      move_to_station
-    when "stations_list"
-      show_stations_list
-    when "trains_list"
-      show_trains_list
-    when "waggons_list"
-      show_waggons_list
-    when "help"
-      show_cmd_list
-    when "exit"
-      break
+  when 'create_station'
+    create_station
+  when 'create_train'
+    create_train
+  when 'add_waggon'
+    add_waggon
+  when 'remove_waggon'
+    remove_waggon
+  when 'use_waggon'
+    use_waggon
+  when 'move_to_station'
+    move_to_station
+  when 'stations_list'
+    show_stations_list
+  when 'trains_list'
+    show_trains_list
+  when 'waggons_list'
+    show_waggons_list
+  when 'help'
+    show_cmd_list
+  when 'exit'
+    break
   end
-    
 end
-
