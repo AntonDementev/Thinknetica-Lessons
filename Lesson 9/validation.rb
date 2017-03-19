@@ -16,6 +16,8 @@ module Validation
         return attr_name =~ attrs[2]
       when :type
         return attr_name.is_a? attrs[2]
+      else
+        return false
       end
     end
   end
