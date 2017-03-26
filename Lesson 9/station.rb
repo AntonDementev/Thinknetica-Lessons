@@ -11,13 +11,14 @@ class Station
 
   attr_reader :trains_list
   attr_accessor_with_history :name
+  validate :name, :presence
+  validate :name, :type, String
 
   @@stations_list = []
 
   def initialize(name)
     @name = name
     @trains_list = []
-    validate!(name, /.*/, String)
     register_instance
     @@stations_list << self
   end

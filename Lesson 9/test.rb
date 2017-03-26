@@ -58,5 +58,5 @@ station1.name = 'Санкт-Петербугский Вокзал'
 
 print "#{station1.name_history}\n"
 
-puts station3.valid?(station3.name, /.*3/, String)
-puts station4.valid?(station4.name, /.*3/, String)
+puts station3.valid?
+puts station4.valid?

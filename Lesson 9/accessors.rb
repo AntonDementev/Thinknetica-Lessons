@@ -16,7 +16,6 @@ module Accessors
           instance_variable_set(array_name, [var, value])
         else
           array << value
-          instance_variable_set(array_name, array)
         end
       end
 

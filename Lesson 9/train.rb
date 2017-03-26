@@ -13,8 +13,9 @@ class Train
 
   attr_reader :number, :station, :waggons, :speed
   strong_attr_acessor :route, Route
-
-  NUMBER_FORMAT = /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
+  validate :number, :presence
+  validate :number, :format, /^[0-9a-z]{3}-?[0-9a-z]{2}$/i
+  validate :number, :type, String
 
   @@trains = {}
 
@@ -22,7 +23,6 @@ class Train
     @number = number
     @waggons = []
     @speed = 0
-    validate!(number, NUMBER_FORMAT, String)
 
     register_instance
     @@trains[number] = self

@@ -5,32 +5,47 @@ module Validation
   end
 
   module ClassMethods
-    def validate(*attrs)
-      attr_name = attrs[0]
-      attr_type = attrs[1]
+    attr_reader :validations
 
-      case attr_type
-      when :presence
-        return attr_name
-      when :format
-        return attr_name =~ attrs[2]
-      when :type
-        return attr_name.is_a? attrs[2]
-      else
-        return false
-      end
+    def validate(*attrs)
+      @validations ||= []
+      @validations << attrs
     end
   end
 
   module InstanceMethods
-    def validate!(name, regexp, class_check)
-      raise 'Валидация presence не прошла' unless self.class.validate(name, :presence)
-      raise 'Валидация type не прошла' unless self.class.validate(name, :type, class_check)
-      raise 'Валидация format не прошла' unless self.class.validate(name, :format, regexp)
+    def validate!
+      validations = self.class.validations
+      validations.each do |validation|
+        name = validation[0]
+        var = instance_variable_get("@#{name}")
+        validation_type = validation[1]
+
+        send(validation_type, var, validation[2])
+      end
     end
 
-    def valid?(name, regexp, class_check)
-      !!(self.class.validate(name, :presence) && self.class.validate(name, :format, regexp) && self.class.validate(name, :type, class_check))
+    def valid?
+      validate!
+      true
+    rescue
+      false
+    end
+
+    private
+
+    def presence(variable, *)
+      raise "#{variable}: аргумент не может быть пустым" if variable.nil? || variable.empty?
+    end
+
+    def type(variable, class_check)
+      unless variable.is_a? class_check
+        raise "#{variable} не является объектом класса #{class_check}"
+      end
+    end
+
+    def format(variable, _regexp)
+      raise "#{variable} не правильного формата" if variable !~ expression
     end
   end
 end

@@ -28,5 +28,4 @@ class Route
   def show_stations
     puts "Список станций маршрута:\n#{@stations}"
   end
-
 end
