@@ -44,8 +44,8 @@ module Validation
       end
     end
 
-    def format(variable, _regexp)
-      raise "#{variable} не правильного формата" if variable !~ expression
+    def format(variable, regexp)
+      raise "#{variable} не правильного формата" if variable !~ regexp
     end
   end
 end
